@@ -29,11 +29,13 @@ dependencies {
     val aocktVersion = "0.1.0"
     val immutableVersion = "0.3.6"
     val coroutinesVersion = "1.8.0-RC"
+    val aedileVersion = "1.3.0"
     val kotestVersion = "5.5.5"
 
     implementation("io.github.jadarma.aockt:aockt-core:$aocktVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:$immutableVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
+    implementation("com.sksamuel.aedile:aedile-core:$aedileVersion")
     testImplementation("io.github.jadarma.aockt:aockt-test:$aocktVersion")
     testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
 }
