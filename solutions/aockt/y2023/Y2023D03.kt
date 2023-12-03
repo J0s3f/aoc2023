@@ -63,9 +63,12 @@ object Y2023D03 : Solution {
 
         private fun getAdjacentPositions(occurrence: Occurrence): List<Position> {
             val positions =
-                (occurrence.pos.x until (occurrence.pos.x + occurrence.length)).map { Position(it, occurrence.pos.y) }.toSet()
+                (occurrence.pos.x until (occurrence.pos.x + occurrence.length)).map { Position(it, occurrence.pos.y) }
+                    .toSet()
 
-            return positions.flatMap(::getAdjacentPositions).filterNot(positions::contains).distinct()
+            return positions.flatMap(::getAdjacentPositions).filterNot(positions::contains).distinct().sortedWith(
+                compareBy({ it.y }, { it.x })
+            )
         }
 
         private fun getAdjacentPositions(pos: Position): List<Position> {
