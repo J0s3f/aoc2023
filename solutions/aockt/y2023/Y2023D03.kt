@@ -61,9 +61,12 @@ object Y2023D03 : Solution {
 
         private fun getChar(pos: Position): Char = lines[pos.y][pos.x]
 
-        private fun getAdjacentPositions(occurrence: Occurrence): List<Position> =
-            (occurrence.pos.x until (occurrence.pos.x + occurrence.length)).map { Position(it, occurrence.pos.y) }
-                .flatMap(::getAdjacentPositions).distinct()
+        private fun getAdjacentPositions(occurrence: Occurrence): List<Position> {
+            val positions =
+                (occurrence.pos.x until (occurrence.pos.x + occurrence.length)).map { Position(it, occurrence.pos.y) }.toSet()
+
+            return positions.flatMap(::getAdjacentPositions).filterNot(positions::contains).distinct()
+        }
 
         private fun getAdjacentPositions(pos: Position): List<Position> {
             val x = pos.x
