@@ -4,8 +4,10 @@ import io.github.jadarma.aockt.core.Solution
 
 object Y2023D03 : Solution {
     class EngineSchematic(private val lines: List<String>) {
-        private val numberRegex = "(\\d+)".toRegex()
-        private val gearRegex = "(\\*)".toRegex()
+        companion object {
+            private val numberRegex = "(\\d+)".toRegex()
+            private val gearRegex = "(\\*)".toRegex()
+        }
 
         data class Position(val x: Int, val y: Int)
         data class Occurrence(val pos: Position, val length: Int)
@@ -29,12 +31,9 @@ object Y2023D03 : Solution {
 
         private fun isNextTo(occ: Occurrence, pos: Position): Boolean {
             val adjacent = getAdjacentPositions(pos).toSet()
-            for (i in 0..<occ.length) {
-                if (adjacent.contains(Position(occ.pos.x + i, occ.pos.y))) {
-                    return true
-                }
+            return (0 until occ.length).any { i ->
+                adjacent.contains(Position(occ.pos.x + i, occ.pos.y))
             }
-            return false
         }
 
         private fun findPartNumberOccurrences() =
@@ -42,24 +41,15 @@ object Y2023D03 : Solution {
 
         fun findPartNumbers(): List<String> = findPartNumberOccurrences().map(::getValue)
 
-        private fun findNumbers(): List<Occurrence> {
-            val numbers: MutableList<Occurrence> = mutableListOf()
-            for (y in lines.indices) {
-                numbers += numberRegex.findAll(lines[y]).map {
-                    Occurrence(
-                        Position(it.range.first, y), it.range.last - it.range.first + 1
-                    )
-                }
+
+        private fun findNumbers(): List<Occurrence> = lines.flatMapIndexed { y, line ->
+            numberRegex.findAll(line).map {
+                Occurrence(Position(it.range.first, y), it.range.last - it.range.first + 1)
             }
-            return numbers
         }
 
-        private fun findGears(): List<Position> {
-            val gears: MutableList<Position> = mutableListOf()
-            for (y in lines.indices) {
-                gears += gearRegex.findAll(lines[y]).map { Position(it.range.first, y) }
-            }
-            return gears
+        private fun findGears(): List<Position> = lines.flatMapIndexed { y, line ->
+            gearRegex.findAll(line).map { Position(it.range.first, y) }
         }
 
         private fun getValue(occurrence: Occurrence): String =
@@ -71,13 +61,9 @@ object Y2023D03 : Solution {
 
         private fun getChar(pos: Position): Char = lines[pos.y][pos.x]
 
-        private fun getAdjacentPositions(occurrence: Occurrence): List<Position> {
-            val positions: MutableList<Position> = mutableListOf()
-            for (i in 0..<occurrence.length) {
-                positions.add(Position(occurrence.pos.x + i, occurrence.pos.y))
-            }
-            return positions.flatMap(::getAdjacentPositions).distinct()
-        }
+        private fun getAdjacentPositions(occurrence: Occurrence): List<Position> =
+            (occurrence.pos.x until (occurrence.pos.x + occurrence.length)).map { Position(it, occurrence.pos.y) }
+                .flatMap(::getAdjacentPositions).distinct()
 
         private fun getAdjacentPositions(pos: Position): List<Position> {
             val x = pos.x
