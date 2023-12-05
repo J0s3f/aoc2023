@@ -2,6 +2,7 @@ package aockt.y2023
 
 import io.github.jadarma.aockt.test.AdventDay
 import io.github.jadarma.aockt.test.AdventSpec
+import kotlin.time.Duration.Companion.seconds
 
 @AdventDay(2023, 5, "If You Give A Seed A Fertilizer")
 class Y2023D05Test : AdventSpec<Y2023D05>({
@@ -46,7 +47,7 @@ class Y2023D05Test : AdventSpec<Y2023D05>({
         officialTestcase shouldOutput 35
     }
 
-    partTwo {
+    partTwo(efficiencyBenchmark = 35.seconds) {
         officialTestcase shouldOutput 46
     }
 
