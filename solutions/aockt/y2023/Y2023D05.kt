@@ -99,7 +99,6 @@ object Y2023D05 : Solution {
     }
 
     interface Mapping<S, T> where S : Comparable<S>, S : LongValueHolder<S>, T : LongValueHolder<T>, T : Comparable<T> {
-        operator fun contains(value: S): Boolean
         fun map(source: S): T?
 
         fun reverse(source: T): S?
@@ -115,7 +114,6 @@ object Y2023D05 : Solution {
         private val reverseRange =
             start.rangeTo(genNew(start.getLongValue() + (range.endInclusive.getLongValue() - range.start.getLongValue())))
 
-        override operator fun contains(value: S): Boolean = range.contains(value)
         override fun map(source: S): T? {
             if (range.contains(source)) {
                 return start.fromLong(source.getLongValue() - range.start.getLongValue() + start.getLongValue())
@@ -136,10 +134,6 @@ object Y2023D05 : Solution {
 
     class ListMapping<S, T>(private val mappings: List<DirectMapping<S, T>>) :
         Mapping<S, T> where S : Comparable<S>, S : LongValueHolder<S>, T : LongValueHolder<T>, T : Comparable<T> {
-        override fun contains(value: S): Boolean {
-            return mappings.map { directMapping -> value in directMapping }.any { true }
-        }
-
         override fun map(source: S): T {
             return mappings.firstNotNullOfOrNull { it.map(source) } ?: mappings[0].genNew(source.getLongValue())
         }
@@ -153,9 +147,6 @@ object Y2023D05 : Solution {
     class CombinedMapping<S, T, U>(
         private val first: Mapping<S, T>, private val second: Mapping<T, U>
     ) : Mapping<S, U> where S : Comparable<S>, S : LongValueHolder<S>, T : LongValueHolder<T>, T : Comparable<T>, U : Comparable<U>, U : LongValueHolder<U> {
-
-        override operator fun contains(value: S): Boolean =
-            first.contains(value) and (first.map(value)?.let { second.contains(it) } ?: false)
 
         override fun map(source: S): U? = first.map(source)?.let { second.map(it) }
         override fun reverse(source: U): S? = second.reverse(source)?.let { first.reverse(it) }
