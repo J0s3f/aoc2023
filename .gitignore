@@ -10,3 +10,5 @@ local.properties
 
 # OS
 .DS_Store
+
+inputs/aockt/y*/d*/**
