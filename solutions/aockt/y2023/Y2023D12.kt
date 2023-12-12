@@ -3,6 +3,9 @@ package aockt.y2023
 import com.sksamuel.aedile.core.Cache
 import com.sksamuel.aedile.core.cacheBuilder
 import io.github.jadarma.aockt.core.Solution
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.runBlocking
 
 
@@ -69,12 +72,16 @@ object Y2023D12 : Solution {
 
     override fun partTwo(input: String): Long {
         val cache = cacheBuilder<CalcParams, Long>().build()
-        return parseInput(input).map { line ->
-            Line(List(5) { line.springs }.joinToString("?"),
-                List(line.groups.size * 5) { line.groups[it % line.groups.size] })
-        }.sumOf {
-            val params = CalcParams(0, 0, 0, it.springs, it.groups)
-            runBlocking { cache.get(params) { cached(params, cache) } }
+        return runBlocking(context = Dispatchers.Default) {
+            parseInput(input).map { line ->
+                Line(List(5) { line.springs }.joinToString("?"),
+                    List(line.groups.size * 5) { line.groups[it % line.groups.size] })
+            }.map {
+                async {
+                    val params = CalcParams(0, 0, 0, it.springs, it.groups)
+                    cache.get(params) { cached(params, cache) }
+                }
+            }.awaitAll().sum()
         }
     }
 }
