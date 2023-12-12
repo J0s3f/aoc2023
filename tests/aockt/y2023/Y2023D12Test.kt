@@ -1,0 +1,45 @@
+package aockt.y2023
+
+import io.github.jadarma.aockt.test.AdventDay
+import io.github.jadarma.aockt.test.AdventSpec
+
+@AdventDay(2023, 12, "Hot Springs")
+class Y2023D12Test : AdventSpec<Y2023D12>({
+
+
+    partOne {
+        "???.### 1,1,3" shouldOutput 1
+        ".??..??...?##. 1,1,3" shouldOutput 4
+        "?#?#?#?#?#?#?#? 1,3,1,6" shouldOutput 1
+        "????.#...#... 4,1,1" shouldOutput 1
+        "????.######..#####. 1,6,5" shouldOutput 4
+        "?###???????? 3,2,1" shouldOutput 10
+        """
+            ???.### 1,1,3
+            .??..??...?##. 1,1,3
+            ?#?#?#?#?#?#?#? 1,3,1,6
+            ????.#...#... 4,1,1
+            ????.######..#####. 1,6,5
+            ?###???????? 3,2,1
+        """.trimIndent() shouldOutput 21
+
+    }
+
+    partTwo {
+        "???.### 1,1,3" shouldOutput 1
+        ".??..??...?##. 1,1,3" shouldOutput 16384
+        "?#?#?#?#?#?#?#? 1,3,1,6" shouldOutput 1
+        "????.#...#... 4,1,1" shouldOutput 16
+        "????.######..#####. 1,6,5" shouldOutput 2500
+        "?###???????? 3,2,1" shouldOutput 506250
+        """
+            ???.### 1,1,3
+            .??..??...?##. 1,1,3
+            ?#?#?#?#?#?#?#? 1,3,1,6
+            ????.#...#... 4,1,1
+            ????.######..#####. 1,6,5
+            ?###???????? 3,2,1
+        """.trimIndent() shouldOutput 525152
+    }
+
+})
