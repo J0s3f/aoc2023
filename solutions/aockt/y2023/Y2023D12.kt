@@ -70,19 +70,17 @@ object Y2023D12 : Solution {
         parseInput(input).sumOf { calc(CalcParams(0, 0, 0, it.springs, it.groups)) }
 
 
-    override fun partTwo(input: String): Long {
-        val cache = cacheBuilder<CalcParams, Long>().build()
-        return runBlocking(context = Dispatchers.Default) {
-            parseInput(input).map { line ->
-                Line(List(5) { line.springs }.joinToString("?"),
-                    List(line.groups.size * 5) { line.groups[it % line.groups.size] })
-            }.map {
-                async {
-                    val params = CalcParams(0, 0, 0, it.springs, it.groups)
-                    cache.get(params) { cached(params, cache) }
-                }
-            }.awaitAll().sum()
-        }
+    override fun partTwo(input: String): Long = runBlocking(context = Dispatchers.Default) {
+        parseInput(input).map { line ->
+            Line(List(5) { line.springs }.joinToString("?"),
+                List(line.groups.size * 5) { line.groups[it % line.groups.size] })
+        }.map {
+            async {
+                val cache = cacheBuilder<CalcParams, Long>().build()
+                val params = CalcParams(0, 0, 0, it.springs, it.groups)
+                cache.get(params) { cached(params, cache) }
+            }
+        }.awaitAll().sum()
     }
 }
 
