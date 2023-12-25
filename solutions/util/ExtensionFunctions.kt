@@ -1,3 +1,5 @@
+package util
+
 object ExtensionFunctions {
     fun <T> List<T>.combinations(): Sequence<Pair<T, T>> {
         val collection = this
