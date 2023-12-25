@@ -5,8 +5,6 @@ import aockt.y2023.Y2023D17.Direction.*
 import io.github.jadarma.aockt.core.Solution
 import util.path
 import util.search
-import kotlin.math.abs
-
 
 object Y2023D17 : Solution {
     private fun parseInput(input: String): Graph {
