@@ -1,6 +1,6 @@
 package aockt.y2023
 
-import ParseHelper.parseCharField
+import util.ParseHelper.parseCharField
 import io.github.jadarma.aockt.core.Solution
 
 

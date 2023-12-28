@@ -1,7 +1,7 @@
 package aockt.y2023
 
-import ExtensionFunctions.combinations
-import ParseHelper.parseCharField
+import util.ExtensionFunctions.combinations
+import util.ParseHelper.parseCharField
 import io.github.jadarma.aockt.core.Solution
 import kotlin.math.abs
 
