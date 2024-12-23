@@ -71,7 +71,7 @@ object Y2023D08 : Solution {
     data class Game(val directions: String, val paths: Map<String, Path>)
 
     private fun parseInput(input: String): Game {
-        val lines = input.lines()
+        val lines = input.lines().toMutableList()
         val directions = lines.removeFirst().trim()
         val paths = lines.asSequence().filter { it.trim().isNotBlank() }
         val matches = paths.mapNotNull { inputRegex.matchEntire(it) }.map { it.groups }
