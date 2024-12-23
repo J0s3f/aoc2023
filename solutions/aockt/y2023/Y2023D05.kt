@@ -183,7 +183,7 @@ object Y2023D05 : Solution {
         var temperature: ListMapping<Temperature, Humidity>? = null
         var humidity: ListMapping<Humidity, Location>? = null
         mappings.forEach { matchResult ->
-            val (sourceCategory, destCategory, mapString) = matchResult.destructured
+            val (sourceCategory, _, mapString) = matchResult.destructured
 
             val mapLines = mapString.trim().lines()
             val values = mapLines.map { line ->
